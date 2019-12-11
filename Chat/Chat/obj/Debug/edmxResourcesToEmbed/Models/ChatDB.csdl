@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ChatDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Friendship">
+    <Key>
+      <PropertyRef Name="Id_friendship" />
+    </Key>
+    <Property Name="Id_friendship" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_user1" Type="Int32" Nullable="false" />
+    <Property Name="Id_user2" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Friendshi__Id_us__47DBAE45" FromRole="Friendship" ToRole="User" />
+    <NavigationProperty Name="User1" Relationship="Self.FK__Friendshi__Id_us__48CFD27E" FromRole="Friendship" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="Id_group" />
+    </Key>
+    <Property Name="Id_group" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="GroupMessages" Relationship="Self.FK__GroupMess__Id_gr__4D94879B" FromRole="Group" ToRole="GroupMessage" />
+    <NavigationProperty Name="Users" Relationship="Self.BelongsTo" FromRole="Group" ToRole="User" />
+  </EntityType>
+  <EntityType Name="GroupMessage">
+    <Key>
+      <PropertyRef Name="Id_groupMessage" />
+    </Key>
+    <Property Name="Id_groupMessage" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_group" Type="Int32" Nullable="false" />
+    <Property Name="Id_userFrom" Type="Int32" Nullable="false" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Group" Relationship="Self.FK__GroupMess__Id_gr__4D94879B" FromRole="GroupMessage" ToRole="Group" />
+    <NavigationProperty Name="User" Relationship="Self.FK__GroupMess__Id_us__4BAC3F29" FromRole="GroupMessage" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="Id_message" />
+    </Key>
+    <Property Name="Id_message" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Id_userFrom" Type="Int32" Nullable="false" />
+    <Property Name="Id_userTo" Type="Int32" Nullable="false" />
+    <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Message__Id_user__46E78A0C" FromRole="Message" ToRole="User" />
+    <NavigationProperty Name="User1" Relationship="Self.FK__Message__Id_user__49C3F6B7" FromRole="Message" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id_user" />
+    </Key>
+    <Property Name="Id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Friendships" Relationship="Self.FK__Friendshi__Id_us__47DBAE45" FromRole="User" ToRole="Friendship" />
+    <NavigationProperty Name="Friendships1" Relationship="Self.FK__Friendshi__Id_us__48CFD27E" FromRole="User" ToRole="Friendship" />
+    <NavigationProperty Name="GroupMessages" Relationship="Self.FK__GroupMess__Id_us__4BAC3F29" FromRole="User" ToRole="GroupMessage" />
+    <NavigationProperty Name="Messages" Relationship="Self.FK__Message__Id_user__46E78A0C" FromRole="User" ToRole="Message" />
+    <NavigationProperty Name="Messages1" Relationship="Self.FK__Message__Id_user__49C3F6B7" FromRole="User" ToRole="Message" />
+    <NavigationProperty Name="Groups" Relationship="Self.BelongsTo" FromRole="User" ToRole="Group" />
+  </EntityType>
+  <Association Name="FK__Friendshi__Id_us__47DBAE45">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Friendship">
+        <PropertyRef Name="Id_user1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Friendshi__Id_us__48CFD27E">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Friendship" Type="Self.Friendship" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Friendship">
+        <PropertyRef Name="Id_user2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GroupMess__Id_gr__4D94879B">
+    <End Role="Group" Type="Self.Group" Multiplicity="1" />
+    <End Role="GroupMessage" Type="Self.GroupMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id_group" />
+      </Principal>
+      <Dependent Role="GroupMessage">
+        <PropertyRef Name="Id_group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GroupMess__Id_us__4BAC3F29">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="GroupMessage" Type="Self.GroupMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="GroupMessage">
+        <PropertyRef Name="Id_userFrom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Message__Id_user__46E78A0C">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Message" Type="Self.Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="Id_userFrom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Message__Id_user__49C3F6B7">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Message" Type="Self.Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="Id_userTo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BelongsTo">
+    <End Role="Group" Type="Self.Group" Multiplicity="*" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="ChatDatabaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Friendships" EntityType="Self.Friendship" />
+    <EntitySet Name="Groups" EntityType="Self.Group" />
+    <EntitySet Name="GroupMessages" EntityType="Self.GroupMessage" />
+    <EntitySet Name="Messages" EntityType="Self.Message" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK__Friendshi__Id_us__47DBAE45" Association="Self.FK__Friendshi__Id_us__47DBAE45">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Friendship" EntitySet="Friendships" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Friendshi__Id_us__48CFD27E" Association="Self.FK__Friendshi__Id_us__48CFD27E">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Friendship" EntitySet="Friendships" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GroupMess__Id_gr__4D94879B" Association="Self.FK__GroupMess__Id_gr__4D94879B">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="GroupMessage" EntitySet="GroupMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GroupMess__Id_us__4BAC3F29" Association="Self.FK__GroupMess__Id_us__4BAC3F29">
+      <End Role="User" EntitySet="Users" />
+      <End Role="GroupMessage" EntitySet="GroupMessages" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Message__Id_user__46E78A0C" Association="Self.FK__Message__Id_user__46E78A0C">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Message__Id_user__49C3F6B7" Association="Self.FK__Message__Id_user__49C3F6B7">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Message" EntitySet="Messages" />
+    </AssociationSet>
+    <AssociationSet Name="BelongsTo" Association="Self.BelongsTo">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

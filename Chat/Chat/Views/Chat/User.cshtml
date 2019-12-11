@@ -1,0 +1,29 @@
+﻿@model Chat.Models.UserChatData
+
+@{
+    ViewBag.Title = "User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_ListOfUsers")
+
+<ul>
+    @foreach (Chat.Models.Message m in Model.Messages)
+    {
+        if (m.User.Username == Model.User1.Username)
+        {
+            <li>@(Model.User1.Username + ": " + m.Content)</li>
+        }
+        else
+        {
+            <li>@(Model.User2.Username + ": " + m.Content)</li>
+        }
+    }
+</ul>
+
+<form method="post" action="@Url.Action("WriteToUser", "Chat", new { nameTo = Model.User2.Username})">
+    <input name="msgText" type="text" value="" />
+    <input type="submit" value="Send" name="submit" />
+</form>
+
+<a href=@("/chat/newfriend")>Add new friend</a>

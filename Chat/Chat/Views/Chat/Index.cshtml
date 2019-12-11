@@ -1,0 +1,12 @@
+﻿@model Chat.Models.ChatData
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_ListOfUsers")
+
+<a href=@("/chat/newfriend")>Add new friend</a>
+<a href=@("/chat/newgroup")>Make new group</a>
+

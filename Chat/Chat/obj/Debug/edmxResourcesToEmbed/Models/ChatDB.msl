@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ChatDatabaseModelStoreContainer" CdmEntityContainer="ChatDatabaseEntities">
+    <EntitySetMapping Name="Friendships">
+      <EntityTypeMapping TypeName="ChatDatabaseModel.Friendship">
+        <MappingFragment StoreEntitySet="Friendship">
+          <ScalarProperty Name="Id_friendship" ColumnName="Id_friendship" />
+          <ScalarProperty Name="Id_user1" ColumnName="Id_user1" />
+          <ScalarProperty Name="Id_user2" ColumnName="Id_user2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="ChatDatabaseModel.Group">
+        <MappingFragment StoreEntitySet="Group">
+          <ScalarProperty Name="Id_group" ColumnName="Id_group" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GroupMessages">
+      <EntityTypeMapping TypeName="ChatDatabaseModel.GroupMessage">
+        <MappingFragment StoreEntitySet="GroupMessage">
+          <ScalarProperty Name="Id_groupMessage" ColumnName="Id_groupMessage" />
+          <ScalarProperty Name="Id_group" ColumnName="Id_group" />
+          <ScalarProperty Name="Id_userFrom" ColumnName="Id_userFrom" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Messages">
+      <EntityTypeMapping TypeName="ChatDatabaseModel.Message">
+        <MappingFragment StoreEntitySet="Message">
+          <ScalarProperty Name="Id_message" ColumnName="Id_message" />
+          <ScalarProperty Name="Id_userFrom" ColumnName="Id_userFrom" />
+          <ScalarProperty Name="Id_userTo" ColumnName="Id_userTo" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="ChatDatabaseModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Id_user" ColumnName="Id_user" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BelongsTo" TypeName="ChatDatabaseModel.BelongsTo" StoreEntitySet="BelongsTo">
+      <EndProperty Name="Group">
+        <ScalarProperty Name="Id_group" ColumnName="Id_group" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id_user" ColumnName="Id_user" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

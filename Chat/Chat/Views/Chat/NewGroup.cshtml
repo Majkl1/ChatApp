@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "NewGroup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Group</h2>
+
+<form method="post" action="@Url.Action("MakeNewGroup", "Chat")">
+    <input name="groupName" type="text" value="" />
+    <input type="submit" value="Send" name="submit" />
+</form>

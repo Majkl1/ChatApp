@@ -1,0 +1,17 @@
+﻿@model Chat.Models.ChatData
+
+<h1>Available users:</h1>
+<ul>
+    @foreach (Chat.Models.User u in Model.AvailableUsers)
+    {
+        <li><a href=@("/chat/user?nameTo=" + u.Username)>@(u.Username)</a></li>
+    }
+</ul>
+
+<h1>Available groups:</h1>
+<ul>
+    @foreach (Chat.Models.Group g in Model.AvailableGroups)
+    {
+        <li><a href=@("/chat/group?groupName=" + g.Name)>@(g.Name)</a></li>
+    }
+</ul>

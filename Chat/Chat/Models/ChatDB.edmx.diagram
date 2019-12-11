@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a4bcbebab69d4643b455a271d63be432" Name="Diagram1">
+        <EntityTypeShape EntityType="ChatDatabaseModel.Friendship" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDatabaseModel.Group" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDatabaseModel.GroupMessage" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDatabaseModel.Message" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ChatDatabaseModel.User" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <AssociationConnector Association="ChatDatabaseModel.FK__Friendshi__Id_us__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDatabaseModel.FK__Friendshi__Id_us__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDatabaseModel.FK__GroupMess__Id_gr__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDatabaseModel.FK__GroupMess__Id_us__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDatabaseModel.FK__Message__Id_user__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDatabaseModel.FK__Message__Id_user__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="ChatDatabaseModel.BelongsTo" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
