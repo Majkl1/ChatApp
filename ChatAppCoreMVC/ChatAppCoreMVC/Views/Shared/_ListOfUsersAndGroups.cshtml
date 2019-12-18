@@ -1,0 +1,10 @@
+﻿@model ChatAppCoreMVC.Models.ChatData
+
+<h1>Available users:</h1>
+
+<ul>
+    @foreach(string name in Model.Usernames)
+    {
+        <li><a href=@("/api/chat/user/" + name)>@(name)</a></li>
+    }
+</ul>

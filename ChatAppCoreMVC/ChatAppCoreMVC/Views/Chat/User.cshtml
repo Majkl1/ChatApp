@@ -1,0 +1,34 @@
+﻿@model ChatAppCoreMVC.Models.UserChatData
+@{
+    ViewData["Title"] = "User";
+}
+
+<h1>Chat</h1>
+<h2 id="userFrom">@(Model.UserFrom)</h2>
+
+@Html.Partial("_ListOfUsersAndGroups")
+
+<h2 id="userTo">@(Model.UserTo)</h2>
+
+<ul id="msgBox">
+    @foreach (ChatAppCoreMVC.Models.DatabaseContext.Message message in Model.Messages)
+    {
+        if (message.IdUserFrom == Model.UserFromId)
+        {
+            <li>@(Model.UserFrom + ": " + message.Content)</li>
+        }
+        else if (message.IdUserTo == Model.UserFromId)
+        {
+            <li>@(Model.UserTo + ": " + message.Content)</li>
+        }
+    }
+</ul>
+
+<form id="sendMsgForm" method="post" onsubmit="send()" action="@Url.Action("SendMessageToUser", "Chat", new { nameTo = Model.UserTo})">
+    <input id="msgText" name="msgText" type="text" value="" />
+    <input id="sendBtn" type="submit" value="Send" name="submit"/>
+</form>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
+
