@@ -4,17 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ChatAppCoreMVC.Models;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace ChatAppCoreMVC.Controllers
 {
     [Route("api/chat")]
     public class ChatController : Controller
     {
+        
+
         [Route("")]
         [HttpGet]
         public IActionResult Index()
         {
             ChatData data = new ChatData(AppConfig.LoggedUsername);
+            
             return View(data);
         }
 
