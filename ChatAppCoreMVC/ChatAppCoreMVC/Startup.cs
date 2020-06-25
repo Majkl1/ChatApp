@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ChatAppCoreMVC.Hubs;
+using ChatAppCoreMVC.Services;
 
 namespace ChatAppCoreMVC
 {
@@ -26,7 +27,7 @@ namespace ChatAppCoreMVC
         {
             services.AddControllersWithViews();
             services.AddSignalR();
-            //services.AddScoped<AppConfig>();
+            services.AddScoped<UserConfig>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

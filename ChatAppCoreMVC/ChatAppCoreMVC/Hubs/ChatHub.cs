@@ -15,6 +15,7 @@ namespace ChatAppCoreMVC.Hubs
             connectionIds.Add(connectionIdFrom);
             connectionIds.Add(connectionIdTo);
             await Clients.Clients(connectionIds).SendAsync("ReceiveMessage", userFrom, userTo, message);
+            
         }
 
         public string GetConnectionId()
