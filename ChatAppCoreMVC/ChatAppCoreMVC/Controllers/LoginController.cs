@@ -6,30 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using ChatAppCoreMVC.Models;
 using ChatAppCoreMVC.Services;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.SignalR;
+using ChatAppCoreMVC.Hubs;
 
 namespace ChatAppCoreMVC.Controllers
 {
     [Route("api/login")]
     public class LoginController : Controller
     {
-        private readonly UserConfig _userConfig;
-        //private readonly OnlineUsers _onlineUsers;
+        private readonly OnlineUsers _onlineUsers;
 
-        //public LoginController(OnlineUsers onlineUsers)
-        //{
-        //    _onlineUsers = onlineUsers;
-        //}
-
-        public LoginController(UserConfig userConfig)
+        public LoginController(OnlineUsers onlineUsers)
         {
-            _userConfig = userConfig;
+            _onlineUsers = onlineUsers;
         }
-
-        //public LoginController(IOptionsSnapshot<UserConfig> userConfig)
-        //{
-
-        //    _userConfig = userConfig.Value;
-        //}
 
         [HttpGet]
         public IActionResult Index()
@@ -43,12 +33,7 @@ namespace ChatAppCoreMVC.Controllers
             string username = Request.Form["username"];
             if (CommunicationWithDB.Login(username))
             {
-                //AppConfig.LoggedUsername = username;
-
-                _userConfig.LoggedUsername = username;
-
-                //_onlineUsers.LoggingUsers.Enqueue(username);
-
+                _onlineUsers.Login(username);
                 return Redirect("/api/chat");
             }
             else

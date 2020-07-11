@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ChatAppCoreMVC.Models.DatabaseContext
+namespace ChatAppCoreMVC.Models.DBContext
 {
     public partial class Message
     {

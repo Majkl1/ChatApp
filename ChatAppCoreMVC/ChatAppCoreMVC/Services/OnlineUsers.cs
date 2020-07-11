@@ -7,20 +7,28 @@ namespace ChatAppCoreMVC.Services
 {
     public class OnlineUsers
     {
-        public List<string> AllUsers { get; private set; }
-        public Queue<string> LoggingUsers { get; set; }
+        //public List<string> AllUsers { get; private set; }
+        public List<UserConfig> AllUsers { get; set; }
+        public Queue<UserConfig> LoggingUsers { get; set; }
 
         public OnlineUsers()
         {
-            AllUsers = new List<string>();
-            LoggingUsers = new Queue<string>();
+            AllUsers = new List<UserConfig>();
+            LoggingUsers = new Queue<UserConfig>();
         }
 
-        public string UserLoaded()
+        public bool Login(string username)
         {
-            string username = LoggingUsers.Dequeue();
-            AllUsers.Add(username);
-            return username;
+            LoggingUsers.Enqueue(new UserConfig(username));
+            return true;
+        }
+
+        public UserConfig UserLoaded()
+        {
+            if (LoggingUsers.Count == 0) return null;
+            UserConfig user = LoggingUsers.Dequeue();
+            AllUsers.Add(user);
+            return user;
         }
     }
 }

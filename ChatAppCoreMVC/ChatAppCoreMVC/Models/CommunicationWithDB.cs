@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ChatAppCoreMVC.Models.DatabaseContext;
+using ChatAppCoreMVC.Models.DBContext;
 
 namespace ChatAppCoreMVC.Models
 {
@@ -11,7 +11,7 @@ namespace ChatAppCoreMVC.Models
         public static bool Login(string username)
         {
             bool exists = false;
-            using (ChatDatabaseContext context = new ChatDatabaseContext())
+            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
             {
                 //output = context.User.FirstOrDefault(u => u.Username == username).Username;
                 foreach (User u in context.User)
@@ -28,7 +28,7 @@ namespace ChatAppCoreMVC.Models
         public static bool Register(string username)
         {
             bool newUsername = true;
-            using (ChatDatabaseContext context = new ChatDatabaseContext())
+            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
             {
                 foreach (User u in context.User)
                 {
@@ -52,7 +52,7 @@ namespace ChatAppCoreMVC.Models
         public static int GetUserId(string username)
         {
             int id = -1;
-            using (ChatDatabaseContext context = new ChatDatabaseContext())
+            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
             {
                 //output = context.User.FirstOrDefault(u => u.Username == username).Username;
                 foreach (User u in context.User)
@@ -69,7 +69,7 @@ namespace ChatAppCoreMVC.Models
         public static List<string> GetAllUsernames()
         {
             List<string> usernames = new List<string>();
-            using (ChatDatabaseContext context = new ChatDatabaseContext())
+            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
             {
                 //output = context.User.FirstOrDefault(u => u.Username == username).Username;
                 foreach (User u in context.User)
@@ -83,7 +83,7 @@ namespace ChatAppCoreMVC.Models
         public static List<string> GetAllUsernames(string username)
         {
             List<string> usernames = new List<string>();
-            using (ChatDatabaseContext context = new ChatDatabaseContext())
+            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
             {
                 //output = context.User.FirstOrDefault(u => u.Username == username).Username;
                 foreach (User u in context.User)
@@ -99,7 +99,7 @@ namespace ChatAppCoreMVC.Models
         public static List<Message> GetAllUserMessages(string userFrom, string userTo)
         {
             List<Message> messages = new List<Message>();
-            using (ChatDatabaseContext context = new ChatDatabaseContext())
+            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
             {
                 User user1 = context.User.FirstOrDefault(u => u.Username == userFrom);
                 User user2 = context.User.FirstOrDefault(u => u.Username == userTo);
@@ -119,7 +119,7 @@ namespace ChatAppCoreMVC.Models
             //{
 
             //}
-            using (ChatDatabaseContext context = new ChatDatabaseContext())
+            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
             {
                 User userFrom = context.User.FirstOrDefault(u => u.Username == from);
                 User userTo = context.User.FirstOrDefault(u => u.Username == to);

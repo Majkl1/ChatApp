@@ -11,7 +11,7 @@
 <h2 id="userTo">@(Model.UserTo)</h2>
 
 <ul id="msgBox">
-    @foreach (ChatAppCoreMVC.Models.DatabaseContext.Message message in Model.Messages)
+    @foreach (ChatAppCoreMVC.Models.DBContext.Message message in Model.Messages)
     {
         if (message.IdUserFrom == Model.UserFromId)
         {
@@ -24,11 +24,11 @@
     }
 </ul>
 
-<form id="sendMsgForm" method="post" onsubmit="send()" action="@Url.Action("SendMessageToUser", "Chat", new { nameTo = Model.UserTo})">
+<form id="sendMsgForm" method="post" onsubmit="send()" action="@Url.Action("SendMessageToUser", new { nameTo = Model.UserTo})">
     <input id="msgText" name="msgText" type="text" value="" />
     <input id="sendBtn" type="submit" value="Send" name="submit"/>
 </form>
 
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
+
 <script src="~/js/chat.js"></script>
 

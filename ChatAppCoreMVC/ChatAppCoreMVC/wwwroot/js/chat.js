@@ -6,11 +6,13 @@ document.getElementById("sendBtn").disabled = true;
 connection.start().then(function() {
     document.getElementById("sendBtn").disabled = false;
 
-    connection.invoke('getConnectionId')
+    connection.invoke('GetConnectionId')
         .then(function (connectionId) {
             var activeUser = document.getElementById("userFrom").textContent;
-            sessionStorage.setItem(activeUser, connectionId);
-        }).catch(err => console.error(err.toString()));;
+
+            connection.invoke('SetConnectionId', activeUser, connectionId)
+                .catch(err => console.error(err.toString()));
+        }).catch(err => console.error(err.toString()));
 
 }).catch(function(err) {
     return console.error(err.toString());
@@ -30,9 +32,29 @@ function send() {
     var userTo = document.getElementById("userTo").textContent;
     var userFrom = document.getElementById("userFrom").textContent;
     var message = document.getElementById("msgText").value;
-    var connectionIdFrom = sessionStorage.getItem(userFrom);
-    var connectionIdTo = sessionStorage.getItem(userTo);
-    connection.invoke("SendMessage", userFrom, userTo, message, connectionIdFrom, connectionIdTo).catch(function(err) {
-        return console.error(err.toString())
-    });
+    //var connectionIdFrom = connection.invoke('GetConnectionId');
+    //var connectionIdTo;
+    //var canContinue = false;
+
+    connection.invoke("AddUserToQueue", userFrom).catch(err => console.error(err.toString()));
+
+    connection.invoke('GetConnectionId')
+        .then(function (connectionIdFrom) {
+            connection.invoke('GetConnectionIdOfUser', userTo)
+                .then(function (connectionIdTo) {
+                    connection.invoke("SendMessage", userFrom, userTo, message, connectionIdFrom, connectionIdTo).catch(err => console.error(err.toString()));
+                }).catch(err => console.error(err.toString()));
+        }).catch(err => console.error(err.toString()));
+
+    //while (!canContinue) {
+
+    //}
+    
+    
+    //$.ajax({
+    //    type: "POST",
+    //    url: "/chat/SendMessageToUser",
+    //    data: { nameTo: userTo }
+    //});
 }
+

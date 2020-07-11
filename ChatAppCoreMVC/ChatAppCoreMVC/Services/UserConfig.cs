@@ -8,11 +8,12 @@ namespace ChatAppCoreMVC.Services
 {
     public class UserConfig : IdentityUser
     {
-        public string LoggedUsername { get; set; }
+        public string Username { get; set; }
+        public string ConnectionId { get; set; }
 
-        public UserConfig(/*string username*/)
+        public UserConfig(string username)
         {
-            //LoggedUsername = username;
+            Username = username;
         }
     }
 }

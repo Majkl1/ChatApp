@@ -27,7 +27,7 @@ namespace ChatAppCoreMVC
         {
             services.AddControllersWithViews();
             services.AddSignalR();
-            services.AddScoped<UserConfig>();
+            services.AddSingleton<OnlineUsers>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

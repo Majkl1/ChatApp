@@ -3,8 +3,21 @@
 <h1>Available users:</h1>
 
 <ul>
-    @foreach(string name in Model.Usernames)
+    @foreach (string name in Model.Usernames)
     {
-        <li><a href=@("/api/chat/user/" + name)>@(name)</a></li>
+        <!--<li>
+            <form class="users" onsubmit="@Url.Action("InitializeUserTo")">
+                <input type="submit", value="@name"/>
+            </form>
+        </li>-->
+        <li>
+            <button class="usersBtn" value="@name">@name</button>
+        </li>
+        <!--<li>
+            <a href="@("chat/initialize/" + Model.UserFrom + "/" + name)">@name</a>
+        </li>-->
     }
 </ul>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/index.js"></script>
