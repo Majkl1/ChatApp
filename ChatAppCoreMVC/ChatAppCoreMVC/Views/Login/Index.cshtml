@@ -2,10 +2,17 @@
     ViewBag.Title = "Login";
 }
 
+<script src="~/js/login.js"></script>
+
 <h2>Login</h2>
 
+
+<p id="warning"></p>
 <form method="post" action="@Url.Action("Login", "Login")">
+    <label>username:</label>
     <input name="username" type="text" value="" />
+    <label>password:</label>
+    <input name="password" type="password" value="" />
     <input type="submit" value="Send" name="submit" />
 </form>
 

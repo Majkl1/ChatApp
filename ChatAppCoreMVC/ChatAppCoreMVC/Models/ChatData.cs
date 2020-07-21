@@ -11,12 +11,12 @@ namespace ChatAppCoreMVC.Models
         public List<string> Usernames { get; protected set; }
         public string UserFrom { get; protected set; }
         public int UserFromId { get; protected set; }
-        public OnlineUsers OnlineUsers { get; private set; }
-        public ChatData(string userFrom, OnlineUsers onlineUsers)
+        public AppConfig OnlineUsers { get; private set; }
+        public ChatData(string userFrom, AppConfig onlineUsers, CommunicationWithDB db)
         {
             this.UserFrom = userFrom;
-            this.Usernames = CommunicationWithDB.GetAllUsernames(userFrom);
-            this.UserFromId = CommunicationWithDB.GetUserId(userFrom);
+            this.Usernames = db.GetAllUsernames(userFrom);
+            this.UserFromId = db.GetUserId(userFrom);
             this.OnlineUsers = onlineUsers;
         }
     }

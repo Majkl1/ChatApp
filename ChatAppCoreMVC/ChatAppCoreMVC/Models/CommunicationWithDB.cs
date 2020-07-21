@@ -6,130 +6,109 @@ using ChatAppCoreMVC.Models.DBContext;
 
 namespace ChatAppCoreMVC.Models
 {
-    public static class CommunicationWithDB
+    public class CommunicationWithDB
     {
-        public static bool Login(string username)
+        private readonly ChatAppDBContext _context;
+        public CommunicationWithDB(ChatAppDBContext context)
+        {
+            _context = context;
+        }
+
+        public bool Login(string username, string hash)
         {
             bool exists = false;
-            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
+
+            foreach (User u in _context.User)
             {
-                //output = context.User.FirstOrDefault(u => u.Username == username).Username;
-                foreach (User u in context.User)
+                if (u.Username == username && u.Password == hash)
                 {
-                    if (u.Username == username)
-                    {
-                        exists = true;
-                        break;
-                    }
+                    exists = true;
+                    break;
                 }
             }
+
             return exists;
         }
-        public static bool Register(string username)
+        public bool Register(string username, string hash)
         {
             bool newUsername = true;
-            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
+            foreach (User u in _context.User)
             {
-                foreach (User u in context.User)
+                if (u.Username == username)
                 {
-                    if (u.Username == username)
-                    {
-                        newUsername = false;
-                        break;
-                    }
+                    newUsername = false;
+                    break;
                 }
-                if (newUsername)
-                {
-                    User u = new User();
-                    u.Username = username;
-                    u.Password = "123";
-                    context.User.Add(u);
-                }
-                context.SaveChanges();
+            }
+            if (newUsername)
+            {
+                var u = new User();
+                u.Username = username;
+                u.Password = hash;
+                _context.User.Add(u);
+                _context.SaveChanges();
             }
             return newUsername;
         }
-        public static int GetUserId(string username)
+        public int GetUserId(string username)
         {
             int id = -1;
-            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
+            foreach (User u in _context.User)
             {
-                //output = context.User.FirstOrDefault(u => u.Username == username).Username;
-                foreach (User u in context.User)
+                if (u.Username == username)
                 {
-                    if (u.Username == username)
-                    {
-                        id = u.IdUser;
-                        break;
-                    }
+                    id = u.IdUser;
+                    break;
                 }
             }
             return id;
         }
-        public static List<string> GetAllUsernames()
+        public List<string> GetAllUsernames()
         {
-            List<string> usernames = new List<string>();
-            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
+            var usernames = new List<string>();
+            foreach (User u in _context.User)
             {
-                //output = context.User.FirstOrDefault(u => u.Username == username).Username;
-                foreach (User u in context.User)
+                usernames.Add(u.Username);
+            }
+            return usernames;
+        }
+        
+        public List<string> GetAllUsernames(string username)
+        {
+            var usernames = new List<string>();
+            foreach (User u in _context.User)
+            {
+                if (u.Username != username)
                 {
                     usernames.Add(u.Username);
                 }
             }
             return usernames;
         }
-        
-        public static List<string> GetAllUsernames(string username)
+        public List<Message> GetAllUserMessages(string userFrom, string userTo)
         {
-            List<string> usernames = new List<string>();
-            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
+            var messages = new List<Message>();
+            User user1 = _context.User.FirstOrDefault(u => u.Username == userFrom);
+            User user2 = _context.User.FirstOrDefault(u => u.Username == userTo);
+            foreach (Message m in _context.Message)
             {
-                //output = context.User.FirstOrDefault(u => u.Username == username).Username;
-                foreach (User u in context.User)
+                if ((user1.IdUser == m.IdUserTo && user2.IdUser == m.IdUserFrom) || (user2.IdUser == m.IdUserTo && user1.IdUser == m.IdUserFrom))
                 {
-                    if (u.Username != username)
-                    {
-                        usernames.Add(u.Username);
-                    }
-                }
-            }
-            return usernames;
-        }
-        public static List<Message> GetAllUserMessages(string userFrom, string userTo)
-        {
-            List<Message> messages = new List<Message>();
-            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
-            {
-                User user1 = context.User.FirstOrDefault(u => u.Username == userFrom);
-                User user2 = context.User.FirstOrDefault(u => u.Username == userTo);
-                foreach (Message m in context.Message)
-                {
-                    if ((user1.IdUser == m.IdUserTo && user2.IdUser == m.IdUserFrom) || (user2.IdUser == m.IdUserTo && user1.IdUser == m.IdUserFrom))
-                    {
-                        messages.Add(m);
-                    }
+                    messages.Add(m);
                 }
             }
             return messages;
         }
-        public static void SendUserMessage(string from, string to, string content)
+        public void SendUserMessage(string from, string to, string content)
         {
-            //using (ChatDatabaseContext context = new ChatDatabaseContext())
-            //{
-
-            //}
-            using (ChatAppDBCervinkaContext context = new ChatAppDBCervinkaContext())
-            {
-                User userFrom = context.User.FirstOrDefault(u => u.Username == from);
-                User userTo = context.User.FirstOrDefault(u => u.Username == to);
-                Message m = new Message();
-                m.IdUserFrom = userFrom.IdUser;
-                m.IdUserTo = userTo.IdUser;
-                m.Content = content;
-                context.Message.Add(m);
-                context.SaveChanges();
-            }
+            User userFrom = _context.User.FirstOrDefault(u => u.Username == from);
+            User userTo = _context.User.FirstOrDefault(u => u.Username == to);
+            var m = new Message();
+            m.IdUserFrom = userFrom.IdUser;
+            m.IdUserTo = userTo.IdUser;
+            m.Content = content;
+            _context.Message.Add(m);
+            _context.SaveChanges();
         }
     }
 }

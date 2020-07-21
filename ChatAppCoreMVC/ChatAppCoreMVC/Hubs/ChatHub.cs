@@ -9,17 +9,16 @@ namespace ChatAppCoreMVC.Hubs
 {
     public class ChatHub : Hub
     {
-        private readonly OnlineUsers _onlineUsers;
+        private readonly AppConfig _appconfig;
 
-        public ChatHub(OnlineUsers onlineUsers)
+        public ChatHub(AppConfig onlineUsers)
         {
-            _onlineUsers = onlineUsers;
+            _appconfig = onlineUsers;
         }
 
         public async Task SendMessage(string userFrom, string userTo, string message, string connectionIdFrom, string connectionIdTo)
         {
-            //await Clients.All.SendAsync("ReceiveMessage", userFrom, userTo, message);
-            List<string> connectionIds = new List<string>();
+            var connectionIds = new List<string>();
             connectionIds.Add(connectionIdFrom);
             connectionIds.Add(connectionIdTo);
             await Clients.Clients(connectionIds).SendAsync("ReceiveMessage", userFrom, userTo, message);
@@ -33,7 +32,7 @@ namespace ChatAppCoreMVC.Hubs
 
         public string GetConnectionIdOfUser(string username)
         {
-            foreach (UserConfig u in _onlineUsers.AllUsers)
+            foreach (UserConfig u in _appconfig.OnlineUsers)
             {
                 if (u.Username == username)
                 {
@@ -45,7 +44,7 @@ namespace ChatAppCoreMVC.Hubs
 
         public void SetConnectionId(string username, string id)
         {
-            foreach(UserConfig u in _onlineUsers.AllUsers)
+            foreach(UserConfig u in _appconfig.OnlineUsers)
             {
                 if(u.Username == username)
                 {
@@ -55,10 +54,7 @@ namespace ChatAppCoreMVC.Hubs
             }
         }
 
-        public void AddUserToQueue(string username)
-        {
-            _onlineUsers.Login(username);
-        }
+
 
         
     }

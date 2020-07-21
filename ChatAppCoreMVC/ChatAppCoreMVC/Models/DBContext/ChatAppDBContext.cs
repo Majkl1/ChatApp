@@ -1,18 +1,22 @@
 ﻿using System;
+using ChatAppCoreMVC.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ChatAppCoreMVC.Models.DBContext
 {
-    public partial class ChatAppDBCervinkaContext : DbContext
+    public partial class ChatAppDBContext : DbContext
     {
-        public ChatAppDBCervinkaContext()
+        private readonly AppConfig _config;
+        public ChatAppDBContext(AppConfig config)
         {
+            _config = config;
         }
 
-        public ChatAppDBCervinkaContext(DbContextOptions<ChatAppDBCervinkaContext> options)
+        public ChatAppDBContext(DbContextOptions<ChatAppDBContext> options, AppConfig config)
             : base(options)
         {
+            _config = config;
         }
 
         public virtual DbSet<Message> Message { get; set; }
@@ -22,8 +26,7 @@ namespace ChatAppCoreMVC.Models.DBContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=147.230.21.34;Initial Catalog=ChatAppDBCervinka;User ID=student;Password=student");
+                optionsBuilder.UseSqlServer(_config.ConnectionString);
             }
         }
 

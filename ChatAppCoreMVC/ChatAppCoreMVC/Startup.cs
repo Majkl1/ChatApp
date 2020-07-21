@@ -10,6 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ChatAppCoreMVC.Hubs;
 using ChatAppCoreMVC.Services;
+using ChatAppCoreMVC.Models;
+using ChatAppCoreMVC.Models.DBContext;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System.IO;
 
 namespace ChatAppCoreMVC
 {
@@ -27,7 +32,19 @@ namespace ChatAppCoreMVC
         {
             services.AddControllersWithViews();
             services.AddSignalR();
-            services.AddSingleton<OnlineUsers>();
+
+            services.AddSingleton<AppConfig>();
+            services.AddSingleton<CommunicationWithDB>();
+            services.AddSingleton<ChatAppDBContext>();
+            services.AddSingleton<HashAlgorithm>();
+
+            services.AddAuthentication("CookieAuth")
+                .AddCookie("CookieAuth", config =>
+                {
+                    config.Cookie.Name = "user-login";
+                    config.LoginPath = "/chat/authenticate";
+                });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +65,7 @@ namespace ChatAppCoreMVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

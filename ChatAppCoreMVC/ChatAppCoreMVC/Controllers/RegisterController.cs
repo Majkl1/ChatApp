@@ -8,15 +8,18 @@ using ChatAppCoreMVC.Services;
 
 namespace ChatAppCoreMVC.Controllers
 {
-    [Route("api/register")]
+    [Route("register")]
     public class RegisterController : Controller
     {
-        private readonly UserConfig _userConfig;
-        //private readonly IUserConfig _userConfig;
+        private readonly AppConfig _appConfig;
+        private readonly CommunicationWithDB _communicationWithDB;
+        private readonly HashAlgorithm _hashAlgorithm;
 
-        public RegisterController(UserConfig userConfig)
+        public RegisterController(AppConfig appConfig, CommunicationWithDB db, HashAlgorithm hashAlgorithm)
         {
-            _userConfig = userConfig;
+            _appConfig = appConfig;
+            _communicationWithDB = db;
+            _hashAlgorithm = hashAlgorithm;
         }
 
         [HttpGet]
@@ -25,20 +28,25 @@ namespace ChatAppCoreMVC.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Register()
-        //{
-        //    string username = Request.Form["username"];
-        //    if (CommunicationWithDB.Register(username))
-        //    {
-        //        _userConfig.LoggedUsername = username;
-        //        return Redirect("/api/chat");
-                
-        //    }
-        //    else
-        //    {
-        //        return Redirect("/api/register");
-        //    }
-        //}
+        [HttpPost]
+        public IActionResult Register()
+        {
+            string username = Request.Form["username"];
+            string plainPassword = Request.Form["password"];
+
+            string hash = _hashAlgorithm.GetHash(plainPassword);
+            if (_communicationWithDB.Register(username, hash))
+            {
+                _appConfig.Login(username);
+                Response.Cookies.Append("username", username);
+                return Redirect("/chat");
+            }
+            else
+            {
+                Response.Cookies.Append("invalid-register", "true");
+                return Redirect("/register");
+            }
+
+        }
     }
 }

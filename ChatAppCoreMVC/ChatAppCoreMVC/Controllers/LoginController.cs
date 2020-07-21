@@ -8,17 +8,22 @@ using ChatAppCoreMVC.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.SignalR;
 using ChatAppCoreMVC.Hubs;
+using System.Text;
 
 namespace ChatAppCoreMVC.Controllers
 {
-    [Route("api/login")]
+    [Route("login")]
     public class LoginController : Controller
     {
-        private readonly OnlineUsers _onlineUsers;
+        private readonly AppConfig _appConfig;
+        private readonly CommunicationWithDB _communicationWithDB;
+        private readonly HashAlgorithm _hashAlgorithm;
 
-        public LoginController(OnlineUsers onlineUsers)
+        public LoginController(AppConfig onlineUsers, CommunicationWithDB db, HashAlgorithm hashAlgorithm)
         {
-            _onlineUsers = onlineUsers;
+            _appConfig = onlineUsers;
+            _communicationWithDB = db;
+            _hashAlgorithm = hashAlgorithm;
         }
 
         [HttpGet]
@@ -31,15 +36,21 @@ namespace ChatAppCoreMVC.Controllers
         public IActionResult Login()
         {
             string username = Request.Form["username"];
-            if (CommunicationWithDB.Login(username))
+            string plainPassword = Request.Form["password"];
+
+            string hash = _hashAlgorithm.GetHash(plainPassword);
+            if (_communicationWithDB.Login(username, hash))
             {
-                _onlineUsers.Login(username);
-                return Redirect("/api/chat");
+                _appConfig.Login(username);
+                Response.Cookies.Append("username", username);
+                return Redirect("/chat");
             }
             else
             {
-                return Redirect("/api/login");
+                Response.Cookies.Append("invalid-login", "true");
+                return Redirect("/login");
             }
+
         }
     }
 }

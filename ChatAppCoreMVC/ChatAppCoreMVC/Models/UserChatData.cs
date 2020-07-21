@@ -13,11 +13,11 @@ namespace ChatAppCoreMVC.Models
         public List<Message> Messages { get; private set; }
         public int UserToId { get; private set; }
 
-        public UserChatData(string userFrom, string userTo, OnlineUsers onlineUsers) : base(userFrom, onlineUsers)
+        public UserChatData(string userFrom, string userTo, Services.AppConfig onlineUsers, CommunicationWithDB db) : base(userFrom, onlineUsers, db)
         {
             this.UserTo = userTo;
-            this.Messages = CommunicationWithDB.GetAllUserMessages(userFrom, userTo);
-            this.UserToId = CommunicationWithDB.GetUserId(userTo);
+            this.Messages = db.GetAllUserMessages(userFrom, userTo);
+            this.UserToId = db.GetUserId(userTo);
         }
     }
 }

@@ -10,14 +10,16 @@
                 <input type="submit", value="@name"/>
             </form>
         </li>-->
-        <li>
-            <button class="usersBtn" value="@name">@name</button>
-        </li>
         <!--<li>
-            <a href="@("chat/initialize/" + Model.UserFrom + "/" + name)">@name</a>
+            <button class="usersBtn" value="@name">@name</button>
         </li>-->
+        <li>
+            <a href="@Url.Action("User", new { nameTo = name})">@name</a>
+        </li>
     }
 </ul>
 
+<a href="@Url.Action("Logout")">Log out</a>
+
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/index.js"></script>
+<!--<script src="~/js/index.js"></script>-->
