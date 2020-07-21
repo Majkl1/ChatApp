@@ -1,7 +1,5 @@
 */bin
 */obj
 .vs
-ChatAppCoreMVC/appsetings.secret.json
-ChatAppCoreMVC/wwwroot/js/index.js
-ChatAppCoreMVC/bin
-ChatAppCoreMVC/obj
+*index.js
+*.secret.json
