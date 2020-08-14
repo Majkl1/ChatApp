@@ -9,6 +9,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.SignalR;
 using ChatAppCoreMVC.Hubs;
 using System.Text;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChatAppCoreMVC.Controllers
 {
@@ -37,12 +40,18 @@ namespace ChatAppCoreMVC.Controllers
         {
             string username = Request.Form["username"];
             string plainPassword = Request.Form["password"];
-
+           
             string hash = _hashAlgorithm.GetHash(plainPassword);
             if (_communicationWithDB.Login(username, hash))
             {
                 _appConfig.Login(username);
-                Response.Cookies.Append("username", username);
+                var userClaims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name, username)
+                };
+                var userIdentity = new ClaimsIdentity(userClaims, "user identity");
+                var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
+                HttpContext.SignInAsync(userPrincipal);
                 return Redirect("/chat");
             }
             else
@@ -51,6 +60,12 @@ namespace ChatAppCoreMVC.Controllers
                 return Redirect("/login");
             }
 
+        }
+
+        [Route("authenticate")]
+        public IActionResult Authenticate()
+        {
+            return Redirect("..");
         }
     }
 }

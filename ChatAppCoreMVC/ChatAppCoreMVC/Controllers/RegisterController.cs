@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ChatAppCoreMVC.Models;
 using ChatAppCoreMVC.Services;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ChatAppCoreMVC.Controllers
 {
@@ -38,7 +40,13 @@ namespace ChatAppCoreMVC.Controllers
             if (_communicationWithDB.Register(username, hash))
             {
                 _appConfig.Login(username);
-                Response.Cookies.Append("username", username);
+                var userClaims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name, username)
+                };
+                var userIdentity = new ClaimsIdentity(userClaims, "user identity");
+                var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
+                HttpContext.SignInAsync(userPrincipal);
                 return Redirect("/chat");
             }
             else

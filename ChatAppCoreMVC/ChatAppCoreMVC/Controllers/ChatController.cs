@@ -17,6 +17,7 @@ using System.Security.Claims;
 namespace ChatAppCoreMVC.Controllers
 {
     [Route("chat")]
+    [Authorize]
     public class ChatController : Controller
     {
         private readonly AppConfig _onlineUsers;
@@ -30,7 +31,6 @@ namespace ChatAppCoreMVC.Controllers
 
         [Route("")]
         [HttpGet]
-        [Authorize]
         public IActionResult Index()
         {
             string username = HttpContext.User.Identities.ToArray()[0].Claims.ToArray()[0].Value;
@@ -42,7 +42,6 @@ namespace ChatAppCoreMVC.Controllers
 
         [Route("user/{nameTo}")]
         [HttpGet]
-        [Authorize]
         public IActionResult User(string nameTo)
         {
             string username = HttpContext.User.Identities.ToArray()[0].Claims.ToArray()[0].Value;
@@ -59,31 +58,12 @@ namespace ChatAppCoreMVC.Controllers
             return NoContent();
         }
 
-        [Route("authenticate")]
-        public IActionResult Authenticate()
-        {
-            var username = Request.Cookies["username"];
-            Response.Cookies.Delete("username");
-            var userClaims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, username)
-            };
-
-            var userIdentity = new ClaimsIdentity(userClaims, "user identity");
-            var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
-            HttpContext.SignInAsync(userPrincipal);
-
-            return Redirect(".");
-        }
-
         [Route("logout")]
         [HttpGet]
         public IActionResult Logout()
         {
             Response.Cookies.Delete("user-login");
-
             return Redirect(Url.Action("", "login"));
-            //return Redirect("././login");
         }
 
 

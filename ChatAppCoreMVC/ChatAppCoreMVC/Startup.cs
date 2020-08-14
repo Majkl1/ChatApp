@@ -34,15 +34,15 @@ namespace ChatAppCoreMVC
             services.AddSignalR();
 
             services.AddSingleton<AppConfig>();
-            services.AddSingleton<CommunicationWithDB>();
-            services.AddSingleton<ChatAppDBContext>();
-            services.AddSingleton<HashAlgorithm>();
+            services.AddScoped<CommunicationWithDB>();
+            services.AddScoped<ChatAppDBContext>();
+            services.AddScoped<HashAlgorithm>();
 
             services.AddAuthentication("CookieAuth")
                 .AddCookie("CookieAuth", config =>
                 {
                     config.Cookie.Name = "user-login";
-                    config.LoginPath = "/chat/authenticate";
+                    config.LoginPath = "/login/authenticate";
                 });
             
         }
