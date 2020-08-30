@@ -1,0 +1,16 @@
+﻿
+
+@model ChatAppCoreMVC.Models.ChatData
+
+<h1>Available users:</h1>
+
+<ul>
+    @foreach (string name in Model.Usernames)
+    {
+        <li>
+            <a class="btn btn-info" href="@Url.Action("User", new { nameTo = name})">@name</a>
+        </li>
+    }
+</ul>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>

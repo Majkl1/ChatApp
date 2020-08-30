@@ -15,8 +15,8 @@ namespace ChatAppCoreMVC.Hubs
         {
             _appconfig = onlineUsers;
         }
-
-        public async Task SendMessage(string userFrom, string userTo, string message, string connectionIdFrom, string connectionIdTo)
+        public async Task SendMessage(string userFrom, string userTo, string message, 
+                                      string connectionIdFrom, string connectionIdTo)
         {
             var connectionIds = new List<string>();
             connectionIds.Add(connectionIdFrom);
@@ -24,12 +24,10 @@ namespace ChatAppCoreMVC.Hubs
             await Clients.Clients(connectionIds).SendAsync("ReceiveMessage", userFrom, userTo, message);
             string s = Context.ConnectionId;
         }
-
         public string GetConnectionId()
         {
             return Context.ConnectionId;
         }
-
         public string GetConnectionIdOfUser(string username)
         {
             foreach (UserConfig u in _appconfig.OnlineUsers)
@@ -41,7 +39,6 @@ namespace ChatAppCoreMVC.Hubs
             }
             return null;
         }
-
         public void SetConnectionId(string username, string id)
         {
             foreach(UserConfig u in _appconfig.OnlineUsers)

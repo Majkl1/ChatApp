@@ -5,7 +5,9 @@
 
 <h2 class="display-1" id="userFrom">@(Model.UserFrom)</h2>
 
-@Html.Partial("_ListOfUsersAndGroups")
+<partial name="_ListOfUsers"/>
+
+<a class="btn btn-danger" href="@Url.Action("Logout")">Log out</a>
 
 
 

@@ -32,7 +32,6 @@ namespace ChatAppCoreMVC
         {
             services.AddControllersWithViews();
             services.AddSignalR();
-
             services.AddSingleton<AppConfig>();
             services.AddScoped<CommunicationWithDB>();
             services.AddScoped<ChatAppDBContext>();

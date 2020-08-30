@@ -45,6 +45,7 @@ namespace ChatAppCoreMVC.Controllers
             if (_communicationWithDB.Login(username, hash))
             {
                 _appConfig.Login(username);
+
                 var userClaims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.Name, username)
@@ -52,6 +53,7 @@ namespace ChatAppCoreMVC.Controllers
                 var userIdentity = new ClaimsIdentity(userClaims, "user identity");
                 var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
                 HttpContext.SignInAsync(userPrincipal);
+
                 return Redirect("/chat");
             }
             else

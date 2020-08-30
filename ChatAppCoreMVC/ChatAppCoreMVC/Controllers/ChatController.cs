@@ -22,7 +22,6 @@ namespace ChatAppCoreMVC.Controllers
     {
         private readonly AppConfig _onlineUsers;
         private readonly CommunicationWithDB _communicationWithDB;
-
         public ChatController(AppConfig onlineUsers, CommunicationWithDB db)
         {
             _onlineUsers = onlineUsers;
@@ -39,10 +38,9 @@ namespace ChatAppCoreMVC.Controllers
             return View(data);
         }
 
-
         [Route("user/{nameTo}")]
         [HttpGet]
-        public IActionResult User(string nameTo)
+        public new IActionResult User(string nameTo)
         {
             string username = HttpContext.User.Identities.ToArray()[0].Claims.ToArray()[0].Value;
             var data = new UserChatData(username, nameTo, _onlineUsers, _communicationWithDB);
@@ -53,7 +51,9 @@ namespace ChatAppCoreMVC.Controllers
         public IActionResult SendMessageToUser(string nameTo)
         {
             string text = Request.Form["msgText"];
+
             string username = HttpContext.User.Identities.ToArray()[0].Claims.ToArray()[0].Value;
+
             _communicationWithDB.SendUserMessage(username, nameTo, text);
             return NoContent();
         }
@@ -65,7 +65,5 @@ namespace ChatAppCoreMVC.Controllers
             Response.Cookies.Delete("user-login");
             return Redirect(Url.Action("", "login"));
         }
-
-
     }
 }
