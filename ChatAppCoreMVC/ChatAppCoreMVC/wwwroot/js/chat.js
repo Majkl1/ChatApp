@@ -32,6 +32,7 @@ function send() {
     var userTo = document.getElementById("userTo").textContent;
     var userFrom = document.getElementById("userFrom").textContent;
     var message = document.getElementById("msgText").value;
+    document.getElementById("msgText").value = "";
 
     connection.invoke('GetConnectionId')
         .then((connectionIdFrom) => {

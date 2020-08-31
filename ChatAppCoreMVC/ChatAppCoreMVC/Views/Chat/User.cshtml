@@ -21,7 +21,7 @@
     }
 </ul>
 <form id="sendMsgForm" method="post" onsubmit="send()" action="@Url.Action("SendMessageToUser", new { nameTo = Model.UserTo})">
-    <input id="msgText" name="msgText" type="text" value="" />
+    <input id="msgText" name="msgText" type="text" value="" autocomplete="off"/>
     <input  class="btn btn-primary" id="sendBtn" type="submit" value="Send" name="submit"/>
 </form>
 
